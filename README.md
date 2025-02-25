@@ -27,4 +27,4 @@ This laboratory work is a landing page designed using pure html & css, inspired 
 
 ## Demo:
 
-[Demo Link]()
+Visit the website on Github Pages - [Demo Link](https://lucian-lu.github.io/Web-Programming-Labs/)
