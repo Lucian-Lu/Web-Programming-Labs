@@ -1,0 +1,31 @@
+.hero-page {
+    background-image: url('images/hero-background.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-content {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hero-content h1 {
+  font-size: 5rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+.hero-content h3 {
+    font-size: 2rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+}
