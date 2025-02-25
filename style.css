@@ -78,3 +78,62 @@
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+.our-models {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+    padding: 5rem 2rem;
+}
+
+.our-models h2 {
+    font-size: 3rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.card {
+    background: white;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.card-text {
+    padding: 15px;
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
+.buy-button {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    background-color: rgba(0, 212, 255, 1);
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
