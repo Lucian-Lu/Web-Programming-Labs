@@ -334,6 +334,18 @@ html {
     text-align: center;
 }
 
+.why-us .our-models, .mobile-only, .contact-us {
+    width: 100vw;
+}
+
+.container-fluid {
+    width: 100%;
+}
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+ }
 
 @media (max-width: 768px) {
     .hero-page {
