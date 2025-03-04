@@ -10,11 +10,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script>
+        function toggleMenu() {
+            document.getElementById("nav-links").classList.toggle("show");
+        }
+    </script>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <ul>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <ul id="nav-links">
             <li><a href="#hero">Home</a></li>
             <li><a href="#why-us">Why Us</a></li>
             <li><a href="#our-models">Models</a></li>
@@ -53,24 +59,31 @@
                     <img src="images/phone.jpg" alt="Better Phone A">
                     <div class="card-text">
                         <p>Better Phone A</p>
-                        <a href="buy-website-placeholder" class="buy-button">Buy Now!</a>
+                        <a href="#card-container" class="buy-button">Buy Now!</a>
                     </div>
                 </div>
                 <div class="card">
                     <img src="images/phone.jpg" alt="Better Phone B">
                     <div class="card-text">
                         <p>Better Phone B</p>
-                        <a href="buy-website-placeholder" class="buy-button">Buy Now!</a>
+                        <a href="#card-container" class="buy-button">Buy Now!</a>
                     </div>
                 </div>
                 <div class="card">
                     <img src="images/phone.jpg" alt="Better Phone C">
                     <div class="card-text">
                         <p>Better Phone C</p>
-                        <a href="buy-website-placeholder" class="buy-button">Buy Now!</a>
+                        <a href="#card-container" class="buy-button">Buy Now!</a>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Mobile-Only Section -->
+        <section class="mobile-only">
+            <h3>Satisfied with your current smartphone?</h3>
+            <p>Help us improve by filling a survey!</p>
+            <a href="#survey-button" class="survey-button">Take a survey!</a>
         </section>
 
         <!-- Footer -->
