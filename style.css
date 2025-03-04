@@ -215,3 +215,38 @@ html {
     margin-top: 2rem;
     color: rgb(53, 48, 48);
 }
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(6, 10, 15, 0.8);
+    padding: 1rem 0;
+    text-align: center;
+    z-index: 1000;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-family: "Poppins", sans-serif;
+}
+
+.navbar a:hover {
+    color: #09cfe9;
+}
