@@ -16,23 +16,28 @@
             document.getElementById("nav-links").classList.toggle("show");
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar justify-content-center">
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
-        <ul id="nav-links">
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#why-us">Why Us</a></li>
-            <li><a href="#our-models">Models</a></li>
-            <li><a href="#contact-us">Contact</a></li>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-body fixed-top">
+        <a class="navbar-brand" href="#hero">Better Phone</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-links">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav-links">
+            <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#why-us">Why Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="#our-models">Models</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact-us">Contact</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid px-0">
         <!-- Title -->
         <div class="row">
-            <div class="col-12 no-gutters">
+            <div class="col-12 px-0 no-gutters">
                 <section id="hero" class="hero-page text-center">
                     <div class="hero-content">
                         <h1>Better Phone - The Phone You Always Dreamed Of</h1>
@@ -44,11 +49,11 @@
 
         <!-- Features -->
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 px-0">
                 <section id="why-us" class="why-us gradient-background text-center">
                     <h2>How are we BETTER?</h2>
                     <div class="row justify-content-center">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="better-list">
                                 <div>✓<span class="custom-letter">B</span>oosted performance</div>
                                 <div>✓<span class="custom-letter">E</span>nergy efficient</div>
@@ -65,75 +70,74 @@
         </div>
 
         <!-- Models -->
-        <div class="row">
-            <div class="col-12">
-                <section id="our-models" class="our-models text-center">
-                    <h2>Explore our products:</h2>
-                    <div class="row justify-content-center">
-                        <div class="col-md-4">
-                            <div class="card">
-                                <img src="images/phone.jpg" alt="Better Phone A">
-                                <div class="card-text">
-                                    <p>Better Phone A</p>
-                                    <a href="#card-container" class="buy-button btn btn-primary">Buy Now!</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <img src="images/phone.jpg" alt="Better Phone B">
-                                <div class="card-text">
-                                    <p>Better Phone B</p>
-                                    <a href="#card-container" class="buy-button btn btn-primary">Buy Now!</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <img src="images/phone.jpg" alt="Better Phone C">
-                                <div class="card-text">
-                                    <p>Better Phone C</p>
-                                    <a href="#card-container" class="buy-button btn btn-primary">Buy Now!</a>
-                                </div>
+        <section id="our-models" class="our-models bg-body text-primary fw-bold text-center rounded">
+            <div class="container">
+                <h2 class="text-primary fw-bold text-center">Explore our products:</h2>
+                <div class="row no-gutters justify-content-center">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card shadow-sm">
+                            <img src="images/phone.jpg" alt="Better Phone A">
+                            <div class="card-text p-3">
+                                <p>Better Phone A</p>
+                                <a href="#card-container" class="buy-button btn btn-primary">Buy Now!</a>
                             </div>
                         </div>
                     </div>
-                </section>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card shadow-sm">
+                            <img src="images/phone.jpg" alt="Better Phone B">
+                            <div class="card-text p-3">
+                                <p>Better Phone B</p>
+                                <a href="#card-container" class="buy-button btn btn-primary">Buy Now!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card shadow-sm">
+                            <img src="images/phone.jpg" alt="Better Phone C">
+                            <div class="card-text p-3">
+                                <p>Better Phone C</p>
+                                <a href="#card-container" class="buy-button btn btn-primary">Buy Now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+          
 
         <!-- Mobile-Only Section -->
-        <div class="row">
-            <div class="col-12">
-                <section class="mobile-only text-center">
+        <section class="mobile-only text-center">
+            <div class="row">
+                <div class="col-12 px-0">
                     <h3>Satisfied with your current smartphone?</h3>
                     <p>Help us improve by filling a survey!</p>
                     <a href="#survey-button" class="survey-button">Take a survey!</a>
-                </section>
+                </div>
             </div>
-        </div>
+        </section>
 
         <!-- Footer -->
-        <div class="row g-0">
-            <div class="col-12">
-                <section id="contact-us" class="contact-us text-center">
-                    <h3>Contact us!</h3>
-                    <address>
-                        <p class="footer-text">Email - <a href="mailto:dummy_email@email.com">dummy_email@email.com</a></p>
-                        <p class="footer-text">Call - <a href="tel:123-456-7890">123-456-7890</a></p>
-                        <p class="footer-text">Shop address - <a href="https://www.google.com/maps/search/">Random Street 123</a></p>
-                    </address>
-                    <div class="social-media">
-                        <p class="footer-text">Follow us:</p>
-                        <a href="https://facebook.com" class="social-icon">FB</a>
-                        <a href="https://twitter.com" class="social-icon">TW</a>
-                        <a href="https://instagram.com" class="social-icon">IG</a>
-                    </div>
-                    <p class="footer-note">Stay connected with us for the latest updates!</p>
-                    <p class="copyright">© 2025 Better Phone. All Rights Reserved.</p>
-                </section>
+        <section id="contact-us" class="contact-us text-center">
+            <div class="row g-0">
+                <div class="col-12 px-0">
+                        <h3>Contact us!</h3>
+                        <address>
+                            <p class="footer-text">Email - <a href="mailto:dummy_email@email.com">dummy_email@email.com</a></p>
+                            <p class="footer-text">Call - <a href="tel:123-456-7890">123-456-7890</a></p>
+                            <p class="footer-text">Shop address - <a href="https://www.google.com/maps/search/">Random Street 123</a></p>
+                        </address>
+                        <div class="social-media">
+                            <p class="footer-text">Follow us:</p>
+                            <a href="https://facebook.com" class="social-icon">FB</a>
+                            <a href="https://twitter.com" class="social-icon">TW</a>
+                            <a href="https://instagram.com" class="social-icon">IG</a>
+                        </div>
+                        <p class="footer-note">Stay connected with us for the latest updates!</p>
+                        <p class="copyright">© 2025 Better Phone. All Rights Reserved.</p>
+                </div>
             </div>
-        </div>
+        </section>
 
         <!-- Mascot -->
         <div class="row">
