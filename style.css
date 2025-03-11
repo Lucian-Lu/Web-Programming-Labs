@@ -227,7 +227,7 @@ html {
     z-index: 1000;
 }
 
-.navbar ul {
+/* .navbar ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -238,7 +238,7 @@ html {
 
 .navbar ul.show {
     display: flex;
-}
+} */
 
 .navbar li {
     padding: 10px;
@@ -322,8 +322,6 @@ html {
 
 .survey-button {
     display: block;
-    width: 40%;
-    height: 20%;
     margin: 10px auto;
     padding: 0.5rem;
     font-size: 1.5rem;
@@ -332,6 +330,7 @@ html {
     color: white;
     text-decoration: none;
     text-align: center;
+    display: inline-block;
 }
 
 .why-us .our-models, .mobile-only, .contact-us {
@@ -345,7 +344,20 @@ html {
 .nopadding {
     padding: 0 !important;
     margin: 0 !important;
- }
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: white !important;
+}
+
+.navbar-light .navbar-brand {
+    color: white !important;
+}
+
+.navbar-light .navbar-toggler-icon {
+    filter: invert(1);
+}
+
 
 @media (max-width: 768px) {
     .hero-page {
