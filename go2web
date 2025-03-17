@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
 import socket, ssl
 from bs4 import BeautifulSoup
+import argparse
 
 
 # Headers to prevent getting the bot verification redirect
@@ -83,12 +85,15 @@ def send_web_engine_request(query):
     soup = BeautifulSoup(body, "html.parser")
     output = []
 
-    print(body)
     # Scrape page data from html file 
+    i = 1
     for result in soup.find_all('a', {'class': 'result__a'}):
         title = result.get_text(strip=True)
         url = result.get('href')
-        output.append({'title': title, 'url': url})
+        output.append({f'title{i}': title, 'url': url})
+        i += 1
+        if i > 10:
+            break
 
     return output
 
@@ -110,53 +115,35 @@ def parse_html(html_body):
     
     return sections
 
-    
+
 if __name__ == "__main__":
-    while True:
-        response = ""
+    parser = argparse.ArgumentParser(description="go2web CLI", add_help=False)
+    parser.add_argument("-h", action="store_true")
+    parser.add_argument("-u")
+    parser.add_argument("-s")
 
-        command = input("Enter a command: ")
-        split_command = command.split(" ")
+    args = parser.parse_args()
+
+    if args.h:
+        print("go2web -u <URL>         # make an HTTP request to the specified URL and print the response")
+        print("go2web -s <search-term> # make an HTTP request to search the term using your favorite search engine and print top 10 results")
+        print("go2web -h               # show this help")
+    
+    elif args.u:
         try:
-            cmd_1 = split_command[0]
-            cmd_2 = split_command[1]
-        except IndexError:
-            print("Invalid command! Use 'go2web -h' to view available commands")
-            continue
+            host, path = args.u.split("://")[-1].split("/", 1)
+            path = "/" + path
 
-        if cmd_1 != "go2web":
-            print("Invalid application prefix! Correct prefix is 'go2web'")
-            continue
+            response = send_https_request(host, path)
+            response = parse_html(response)
 
-        if cmd_2 not in ["-u", "-s", "-h"]:
-            print("Invalid command! Use 'go2web -h' to view available commands")
-            continue
-        
-        if split_command[1] == "-h":
-            cmd_3 = None
-        else:
-            try:
-                cmd_3 = split_command[2]
-            except IndexError:
-                print("Search term needs to be specified!")
-                continue
-
-        if cmd_2 == "-u":
-            try:
-                host, path = cmd_3.split("://")[-1].split("/", 1)
-                path = "/" + path
-
-                response = send_https_request(host, path)
-                response = parse_html(response)
-                
-                print(response)
-            
-            except Exception as e:
-                print("Error occurred = ", e)
-        elif cmd_2 == "-s":
-            response = send_web_engine_request(cmd_3)
             print(response)
-        if cmd_2 == "-h":
-            response = return_help_info()
-            print(response)
+        except Exception as e:
+            print("Error occurred:", e)
 
+    elif args.s:
+        response = send_web_engine_request(args.s)
+        print(response)
+
+    else:
+        print("Invalid command! Use 'go2web -h' to view available commands")
