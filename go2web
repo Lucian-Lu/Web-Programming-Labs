@@ -132,6 +132,27 @@ def verify_content_type(body, headers):
             print("Error parsing JSON:", e)
 
 
+# Function to implement caching of links with a dictionary
+def get_cached_https_request(host, path):
+    url = f"https://{host}{path}"
+    try:
+        with open("cache.json", 'r') as file:
+                data = json.load(file)
+    except:
+        data = {}
+
+    if url in data:
+        return tuple(data[url])
+
+    else:
+        body, header = send_https_request(host, path)
+        data[url] = [body, header]
+        with open("cache.json", 'w') as file:
+            json.dump(data, file)
+
+        return body, header
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="go2web CLI", add_help=False)
     parser.add_argument("-h", action="store_true")
@@ -150,7 +171,8 @@ if __name__ == "__main__":
             host, path = args.u.split("://")[-1].split("/", 1)
             path = "/" + path
 
-            body, headers = send_https_request(host, path)
+            body, headers = get_cached_https_request(host, path)
+            # body, headers = send_https_request(host, path)
             verify_content_type(body, headers)
 
         except Exception as e:
