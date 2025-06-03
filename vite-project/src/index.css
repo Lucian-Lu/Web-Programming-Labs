@@ -1,68 +1,196 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #f9f9f9;
+  --button-bg: #007bff;
+  --button-text: #ffffff;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+[data-theme="dark"] {
+  --bg-color: #1e1e1e;
+  --text-color: #eeeeee;
+  --card-bg: #2e2e2e;
+  --button-bg: #555555;
+  --button-text: #ffffff;
 }
 
 body {
   margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+header {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+header h1 {
+  margin: 0;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.actions button {
+  padding: 0.5rem 1rem;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.actions button:hover {
+  opacity: 0.9;
+}
+
+/* === Quiz List & Cards === */
+.quiz-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.quiz-card {
+  background-color: var(--card-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.quiz-card h2 {
+  margin: 0.5rem 0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.card-actions button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* === Quiz Form === */
+.quiz-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quiz-form label {
+  font-weight: bold;
+}
+
+.quiz-form input,
+.quiz-form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.question-group {
+  background-color: var(--card-bg);
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-actions button {
+  flex: 1;
+  padding: 0.5rem;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* === Quiz Play === */
+.quiz-play-container {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-play-container h2 {
+  margin-top: 0;
+}
+
+.question-block {
+  margin-top: 1rem;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.options-container button {
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.options-container button:disabled {
+  cursor: default;
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--button-bg);
+  color: var(--button-bg);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  opacity: 0.8;
 }

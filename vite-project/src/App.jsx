@@ -1,35 +1,95 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import QuizList from "./components/QuizList";
+import QuizForm from "./components/QuizForm";
+import QuizPlay from "./components/QuizPlay";
+import ThemeToggle from "./components/ThemeToggle";
+import {
+  loadQuizzes,
+  saveQuizzes,
+  loadTheme,
+  saveTheme,
+} from "./utils/storage";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [quizzes, setQuizzes] = useState(() => loadQuizzes());
+  const [theme, setTheme] = useState(() => loadTheme());
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showForm, setShowForm] = useState(false);
+  const [playingQuiz, setPlayingQuiz] = useState(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    saveQuizzes(quizzes);
+  }, [quizzes]);
+
+  useEffect(() => {
+    saveTheme(theme);
+  }, [theme]);
+
+  const addQuiz = (quiz) => {
+    setQuizzes((prev) => [...prev, quiz]);
+  };
+
+  const deleteQuiz = (id) => {
+    setQuizzes((prev) => prev.filter((q) => q.id !== id));
+  };
+
+  const toggleLike = (id) => {
+    setQuizzes((prev) =>
+      prev.map((q) =>
+        q.id === id
+          ? { ...q, likes: q.likes + (q.liked ? -1 : 1), liked: !q.liked }
+          : q
+      )
+    );
+  };
+
+  const startQuiz = (quiz) => {
+    setPlayingQuiz(quiz);
+  };
+
+  const filteredQuizzes = quizzes.filter((q) =>
+    q.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app-container">
+      <header>
+        <h1>Kahoot Clone</h1>
+        <div className="actions">
+          <input
+            type="text"
+            placeholder="Search quizzes..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button onClick={() => setShowForm(true)}>Add Quiz</button>
+          <ThemeToggle theme={theme} setTheme={setTheme} />
+        </div>
+      </header>
+      <main>
+        {playingQuiz ? (
+          <QuizPlay quiz={playingQuiz} onExit={() => setPlayingQuiz(null)} />
+        ) : showForm ? (
+          <QuizForm
+            onSave={(quiz) => {
+              addQuiz(quiz);
+              setShowForm(false);
+            }}
+            onCancel={() => setShowForm(false)}
+          />
+        ) : (
+          <QuizList
+            quizzes={filteredQuizzes}
+            onDelete={deleteQuiz}
+            onToggleLike={toggleLike}
+            onPlay={startQuiz}
+          />
+        )}
+      </main>
+    </div>
+  );
 }
-
-export default App
