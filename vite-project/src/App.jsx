@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   useNavigate,
@@ -14,7 +14,6 @@ import QuizList from "./components/QuizList";
 import QuizForm from "./components/QuizForm";
 import QuizPlay from "./components/QuizPlay";
 
-/** Wraps QuizForm, then navigates back to /quizzes on save or cancel */
 function CreatePage({ addQuiz }) {
   const navigate = useNavigate();
 
@@ -30,11 +29,9 @@ function CreatePage({ addQuiz }) {
   return <QuizForm onSave={handleSave} onCancel={handleCancel} />;
 }
 
-/** Reads searchTerm from props, filters quizzes, then renders QuizList */
 function QuizzesPage({ quizzes, deleteQuiz, toggleLike, searchTerm }) {
   const navigate = useNavigate();
 
-  // Filter quizzes by title (case-insensitive)
   const filteredQuizzes = quizzes.filter((q) =>
     q.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -102,10 +99,8 @@ export default function App() {
             />
           }
         >
-          {/* Home */}
           <Route index element={<MainPage />} />
 
-          {/* Quizzes List */}
           <Route
             path="quizzes"
             element={
@@ -118,13 +113,10 @@ export default function App() {
             }
           />
 
-          {/* Create Quiz */}
           <Route path="create" element={<CreatePage addQuiz={addQuiz} />} />
 
-          {/* Play Quiz */}
           <Route path="play/:quizId" element={<QuizPlay quizzes={quizzes} />} />
 
-          {/* Fallback: render MainPage if no match */}
           <Route path="*" element={<MainPage />} />
         </Route>
       </Routes>

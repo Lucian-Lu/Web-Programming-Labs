@@ -1,4 +1,3 @@
-// src/components/QuizPlay.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -6,7 +5,6 @@ export default function QuizPlay({ quizzes }) {
   const { quizId } = useParams();
   const navigate = useNavigate();
 
-  // Find the quiz by ID from the quizzes array
   const quiz = quizzes.find((q) => q.id === quizId);
 
   const [currentIndex, setCurrentIndex] = useState(0);

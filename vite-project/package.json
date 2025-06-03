@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://Lucian-Lu.github.io/Web-Programming-Labs/lab6",
+  "homepage": "https://Lucian-Lu.github.io/Web-Programming-Labs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

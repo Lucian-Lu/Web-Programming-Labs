@@ -1,4 +1,3 @@
-// src/pages/MainPage.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,13 +6,11 @@ export default function MainPage() {
 
   return (
     <div className="main-page">
-      {/* Hero Section (≈70vh) */}
       <section className="section hero-section">
         <div className="hero-content">
           <h2 className="hero-title">Welcome to Kachoo</h2>
           <p className="hero-subtitle">Create a quiz or take one today.</p>
 
-          {/* First button: View All Quizzes */}
           <button
             className="hero-cta"
             onClick={() => navigate("/quizzes")}
@@ -21,7 +18,6 @@ export default function MainPage() {
             View All Quizzes
           </button>
 
-          {/* Second button: Create Quiz */}
           <button
             className="hero-cta"
             onClick={() => navigate("/create")}
@@ -32,7 +28,6 @@ export default function MainPage() {
         </div>
       </section>
 
-      {/* Description Section (≈70vh) */}
       <section className="section desc-section">
         <div className="desc-content">
           <h2>How Kachoo Works</h2>
@@ -42,7 +37,7 @@ export default function MainPage() {
             the top bar, add your questions, and share the link. You can also
             browse existing quizzes and challenge yourself or your friends!
           </p>
-          {/* Keep only Create Quiz here */}
+
           <button
             className="desc-cta"
             onClick={() => navigate("/create")}
@@ -52,7 +47,7 @@ export default function MainPage() {
         </div>
       </section>
 
-      {/* Footer Section (≈30vh) */}
+
       <section className="section footer-section">
         <div className="footer-content">
           <p>© {new Date().getFullYear()} Kachoo. All rights reserved.</p>
