@@ -1,12 +1,24 @@
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Layout({ theme, setTheme, searchTerm, setSearchTerm }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const onSearchChange = (e) => {
+    const value = e.target.value;
+
+    if (location.pathname !== "/quizzes") {
+      navigate("/quizzes");
+    }
+    setSearchTerm(value);
+  };
+
   return (
     <>
       <header className="site-header">
         <div className="header-content">
-          {/* Left side: Home / Quizzes / Create Quiz */}
+
           <nav className="nav-left">
             <Link to="/" className="nav-link">
               Home
@@ -19,21 +31,19 @@ export default function Layout({ theme, setTheme, searchTerm, setSearchTerm }) {
             </Link>
           </nav>
 
-          {/* Center: “Kachoo” brand */}
           <div className="nav-center">
             <Link to="/" className="brand">
               Kachoo
             </Link>
           </div>
 
-          {/* Right side: Search + Dark Mode toggle */}
           <div className="nav-right">
             <input
               type="text"
               className="nav-search"
               placeholder="Search quizzes..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={onSearchChange}
             />
             <button
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
