@@ -1,48 +1,66 @@
-import React, { useState, useEffect } from 'react'
+// src/components/QuizPlay.jsx
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-export default function QuizPlay({ quiz, onExit }) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [shuffledOptions, setShuffledOptions] = useState([])
-  const [selectedAnswer, setSelectedAnswer] = useState(null)
-  const [score, setScore] = useState(0)
-  const [showResult, setShowResult] = useState(false)
+export default function QuizPlay({ quizzes }) {
+  const { quizId } = useParams();
+  const navigate = useNavigate();
+
+  // Find the quiz by ID from the quizzes array
+  const quiz = quizzes.find((q) => q.id === quizId);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [shuffledOptions, setShuffledOptions] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
-    const q = quiz.questions[currentIndex]
-    if (!q) return
+    if (!quiz) return;
+    const q = quiz.questions[currentIndex];
+    if (!q) return;
 
     const options = [
       { text: q.correctAnswer, isCorrect: true },
       ...q.wrongAnswers.map((w) => ({ text: w, isCorrect: false })),
-    ]
+    ];
 
     for (let i = options.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[options[i], options[j]] = [options[j], options[i]]
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
     }
 
-    setShuffledOptions(options)
-    setSelectedAnswer(null)
-  }, [currentIndex, quiz.questions])
+    setShuffledOptions(options);
+    setSelectedAnswer(null);
+  }, [currentIndex, quiz]);
 
   const chooseAnswer = (option) => {
-    if (selectedAnswer !== null) return
-    setSelectedAnswer(option)
+    if (selectedAnswer !== null) return;
+    setSelectedAnswer(option);
     if (option.isCorrect) {
-      setScore((s) => s + 1)
+      setScore((s) => s + 1);
     }
-  }
+  };
 
   const nextQuestion = () => {
     if (currentIndex + 1 < quiz.questions.length) {
-      setCurrentIndex((i) => i + 1)
+      setCurrentIndex((i) => i + 1);
     } else {
-      setShowResult(true)
+      setShowResult(true);
     }
-  }
+  };
 
   const handleExit = () => {
-    onExit()
+    navigate("/quizzes");
+  };
+
+  if (!quiz) {
+    return (
+      <div className="quiz-play-container">
+        <h2>Quiz not found</h2>
+        <button onClick={handleExit}>Back to Quizzes</button>
+      </div>
+    );
   }
 
   if (showResult) {
@@ -52,12 +70,12 @@ export default function QuizPlay({ quiz, onExit }) {
         <p>
           You scored {score} out of {quiz.questions.length}.
         </p>
-        <button onClick={handleExit}>Back to Quiz List</button>
+        <button onClick={handleExit}>Back to Quizzes</button>
       </div>
-    )
+    );
   }
 
-  const currentQ = quiz.questions[currentIndex]
+  const currentQ = quiz.questions[currentIndex];
 
   return (
     <div className="quiz-play-container">
@@ -76,14 +94,14 @@ export default function QuizPlay({ quiz, onExit }) {
               style={{
                 backgroundColor:
                   selectedAnswer === null
-                    ? ''
+                    ? ""
                     : opt.isCorrect
-                    ? 'seagreen'
+                    ? "seagreen"
                     : selectedAnswer.text === opt.text
-                    ? 'crimson'
-                    : '',
-                color: selectedAnswer !== null ? '#fff' : '',
-                cursor: selectedAnswer !== null ? 'default' : 'pointer',
+                    ? "crimson"
+                    : "",
+                color: selectedAnswer !== null ? "#fff" : "",
+                cursor: selectedAnswer !== null ? "default" : "pointer",
               }}
               disabled={selectedAnswer !== null}
             >
@@ -94,11 +112,11 @@ export default function QuizPlay({ quiz, onExit }) {
         {selectedAnswer !== null && (
           <button onClick={nextQuestion}>
             {currentIndex + 1 < quiz.questions.length
-              ? 'Next Question'
-              : 'See Results'}
+              ? "Next Question"
+              : "See Results"}
           </button>
         )}
       </div>
     </div>
-  )
+  );
 }

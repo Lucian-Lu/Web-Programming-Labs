@@ -1,21 +1,62 @@
 import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
+
+import { loadQuizzes, saveQuizzes, loadTheme, saveTheme } from "./utils/storage";
+
+import Layout from "./components/Layout";
+import MainPage from "./pages/MainPage";
 import QuizList from "./components/QuizList";
 import QuizForm from "./components/QuizForm";
 import QuizPlay from "./components/QuizPlay";
-import ThemeToggle from "./components/ThemeToggle";
-import {
-  loadQuizzes,
-  saveQuizzes,
-  loadTheme,
-  saveTheme,
-} from "./utils/storage";
+
+/** Wraps QuizForm, then navigates back to /quizzes on save or cancel */
+function CreatePage({ addQuiz }) {
+  const navigate = useNavigate();
+
+  const handleSave = (quiz) => {
+    addQuiz(quiz);
+    navigate("/quizzes");
+  };
+
+  const handleCancel = () => {
+    navigate("/quizzes");
+  };
+
+  return <QuizForm onSave={handleSave} onCancel={handleCancel} />;
+}
+
+/** Reads searchTerm from props, filters quizzes, then renders QuizList */
+function QuizzesPage({ quizzes, deleteQuiz, toggleLike, searchTerm }) {
+  const navigate = useNavigate();
+
+  // Filter quizzes by title (case-insensitive)
+  const filteredQuizzes = quizzes.filter((q) =>
+    q.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handlePlay = (quiz) => {
+    navigate(`/play/${quiz.id}`);
+  };
+
+  return (
+    <QuizList
+      quizzes={filteredQuizzes}
+      onDelete={deleteQuiz}
+      onToggleLike={toggleLike}
+      onPlay={handlePlay}
+    />
+  );
+}
 
 export default function App() {
   const [quizzes, setQuizzes] = useState(() => loadQuizzes());
   const [theme, setTheme] = useState(() => loadTheme());
   const [searchTerm, setSearchTerm] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [playingQuiz, setPlayingQuiz] = useState(null);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -47,49 +88,46 @@ export default function App() {
     );
   };
 
-  const startQuiz = (quiz) => {
-    setPlayingQuiz(quiz);
-  };
-
-  const filteredQuizzes = quizzes.filter((q) =>
-    q.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
-    <div className="app-container">
-      <header>
-        <h1>Kahoot Clone</h1>
-        <div className="actions">
-          <input
-            type="text"
-            placeholder="Search quizzes..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Layout
+              theme={theme}
+              setTheme={setTheme}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          }
+        >
+          {/* Home */}
+          <Route index element={<MainPage />} />
+
+          {/* Quizzes List */}
+          <Route
+            path="quizzes"
+            element={
+              <QuizzesPage
+                quizzes={quizzes}
+                deleteQuiz={deleteQuiz}
+                toggleLike={toggleLike}
+                searchTerm={searchTerm}
+              />
+            }
           />
-          <button onClick={() => setShowForm(true)}>Add Quiz</button>
-          <ThemeToggle theme={theme} setTheme={setTheme} />
-        </div>
-      </header>
-      <main>
-        {playingQuiz ? (
-          <QuizPlay quiz={playingQuiz} onExit={() => setPlayingQuiz(null)} />
-        ) : showForm ? (
-          <QuizForm
-            onSave={(quiz) => {
-              addQuiz(quiz);
-              setShowForm(false);
-            }}
-            onCancel={() => setShowForm(false)}
-          />
-        ) : (
-          <QuizList
-            quizzes={filteredQuizzes}
-            onDelete={deleteQuiz}
-            onToggleLike={toggleLike}
-            onPlay={startQuiz}
-          />
-        )}
-      </main>
-    </div>
+
+          {/* Create Quiz */}
+          <Route path="create" element={<CreatePage addQuiz={addQuiz} />} />
+
+          {/* Play Quiz */}
+          <Route path="play/:quizId" element={<QuizPlay quizzes={quizzes} />} />
+
+          {/* Fallback: render MainPage if no match */}
+          <Route path="*" element={<MainPage />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }

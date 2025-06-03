@@ -1,9 +1,10 @@
+// src/components/QuizList.jsx
 import React from "react";
 import QuizCard from "./QuizCard";
 
 export default function QuizList({ quizzes, onDelete, onToggleLike, onPlay }) {
   if (quizzes.length === 0) {
-    return <p>No quizzes found. Add a new quiz!</p>;
+    return <p className="no-quizzes">No quizzes found. Add a new quiz!</p>;
   }
 
   return (

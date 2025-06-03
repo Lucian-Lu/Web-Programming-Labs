@@ -1,31 +1,25 @@
-import React, { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+// src/components/QuizForm.jsx
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function QuizForm({ onSave, onCancel }) {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [questions, setQuestions] = useState([
     {
       id: uuidv4(),
-      text: '',
-      correctAnswer: '',
-      wrongAnswers: ['', '', ''],
+      text: "",
+      correctAnswer: "",
+      wrongAnswers: ["", "", ""],
     },
-  ])
+  ]);
 
   const handleQuestionChange = (id, field, value) => {
     setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === id
-          ? {
-              ...q,
-              [field]: value,
-            }
-          : q
-      )
-    )
-  }
+      prev.map((q) => (q.id === id ? { ...q, [field]: value } : q))
+    );
+  };
 
   const handleWrongAnswerChange = (id, idx, value) => {
     setQuestions((prev) =>
@@ -33,34 +27,34 @@ export default function QuizForm({ onSave, onCancel }) {
         q.id === id
           ? {
               ...q,
-              wrongAnswers: q.wrongAnswers.map((wa, wIndex) =>
-                wIndex === idx ? value : wa
+              wrongAnswers: q.wrongAnswers.map((wa, i) =>
+                i === idx ? value : wa
               ),
             }
           : q
       )
-    )
-  }
+    );
+  };
 
   const addQuestion = () => {
     setQuestions((prev) => [
       ...prev,
       {
         id: uuidv4(),
-        text: '',
-        correctAnswer: '',
-        wrongAnswers: ['', '', ''],
+        text: "",
+        correctAnswer: "",
+        wrongAnswers: ["", "", ""],
       },
-    ])
-  }
+    ]);
+  };
 
   const removeQuestion = (id) => {
-    setQuestions((prev) => prev.filter((q) => q.id !== id))
-  }
+    setQuestions((prev) => prev.filter((q) => q.id !== id));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!title.trim() || !description.trim()) return
+    e.preventDefault();
+    if (!title.trim() || !description.trim()) return;
 
     const filteredQuestions = questions
       .filter((q) => q.text.trim())
@@ -70,7 +64,7 @@ export default function QuizForm({ onSave, onCancel }) {
         correctAnswer: q.correctAnswer.trim(),
         wrongAnswers: q.wrongAnswers.map((w) => w.trim()).filter((w) => w),
       }))
-      .filter((q) => q.correctAnswer && q.wrongAnswers.length >= 1)
+      .filter((q) => q.correctAnswer && q.wrongAnswers.length >= 1);
 
     const newQuiz = {
       id: uuidv4(),
@@ -80,90 +74,93 @@ export default function QuizForm({ onSave, onCancel }) {
       questions: filteredQuestions,
       likes: 0,
       liked: false,
-    }
-    onSave(newQuiz)
-  }
+    };
+    onSave(newQuiz);
+  };
 
   return (
     <form className="quiz-form" onSubmit={handleSubmit}>
       <h2>Add New Quiz</h2>
 
-      <label>Title</label>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
+      <div className="form-group">
+        <label>Title</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </div>
 
-      <label>Description</label>
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
+      <div className="form-group">
+        <label>Description</label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+      </div>
 
-      <label>Image URL</label>
-      <input
-        value={imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
-      />
+      <div className="form-group">
+        <label>Image URL</label>
+        <input
+          type="text"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+      </div>
 
       <h3>Questions</h3>
       {questions.map((q, idx) => (
         <div key={q.id} className="question-group">
-          <label>Question {idx + 1}</label>
-          <input
-            placeholder="Question text"
-            value={q.text}
-            onChange={(e) =>
-              handleQuestionChange(q.id, 'text', e.target.value)
-            }
-            required
-          />
+          <h4>Question {idx + 1}</h4>
 
-          <label>Correct Answer</label>
-          <input
-            placeholder="Correct answer"
-            value={q.correctAnswer}
-            onChange={(e) =>
-              handleQuestionChange(q.id, 'correctAnswer', e.target.value)
-            }
-            required
-          />
+          <div className="form-group">
+            <label>Question Text</label>
+            <input
+              type="text"
+              placeholder="Enter question..."
+              value={q.text}
+              onChange={(e) =>
+                handleQuestionChange(q.id, "text", e.target.value)
+              }
+              required
+            />
+          </div>
 
-          <label>Wrong Answer 1</label>
-          <input
-            placeholder="Wrong answer #1"
-            value={q.wrongAnswers[0]}
-            onChange={(e) =>
-              handleWrongAnswerChange(q.id, 0, e.target.value)
-            }
-            required
-          />
+          <div className="form-group">
+            <label>Correct Answer</label>
+            <input
+              type="text"
+              placeholder="Enter correct answer"
+              value={q.correctAnswer}
+              onChange={(e) =>
+                handleQuestionChange(q.id, "correctAnswer", e.target.value)
+              }
+              required
+            />
+          </div>
 
-          <label>Wrong Answer 2</label>
-          <input
-            placeholder="Wrong answer #2"
-            value={q.wrongAnswers[1]}
-            onChange={(e) =>
-              handleWrongAnswerChange(q.id, 1, e.target.value)
-            }
-          />
-
-          <label>Wrong Answer 3</label>
-          <input
-            placeholder="Wrong answer #3"
-            value={q.wrongAnswers[2]}
-            onChange={(e) =>
-              handleWrongAnswerChange(q.id, 2, e.target.value)
-            }
-          />
+          {q.wrongAnswers.map((wa, i) => (
+            <div key={i} className="form-group">
+              <label>Wrong Answer {i + 1}</label>
+              <input
+                type="text"
+                placeholder={`Wrong answer #${i + 1}`}
+                value={wa}
+                onChange={(e) =>
+                  handleWrongAnswerChange(q.id, i, e.target.value)
+                }
+                required={i === 0}
+              />
+            </div>
+          ))}
 
           {questions.length > 1 && (
             <button
               type="button"
+              className="remove-btn"
               onClick={() => removeQuestion(q.id)}
-              style={{ backgroundColor: 'crimson', color: 'white' }}
             >
               Remove Question
             </button>
@@ -171,7 +168,7 @@ export default function QuizForm({ onSave, onCancel }) {
         </div>
       ))}
 
-      <button type="button" onClick={addQuestion}>
+      <button type="button" className="add-btn" onClick={addQuestion}>
         Add Another Question
       </button>
 
@@ -182,5 +179,5 @@ export default function QuizForm({ onSave, onCancel }) {
         </button>
       </div>
     </form>
-  )
+  );
 }
