@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -10,6 +10,9 @@ class QuizViewSet(viewsets.ModelViewSet):
     queryset = Quiz.objects.all().order_by('-created_at')
     serializer_class = QuizSerializer
     permission_classes = [HasAPIPermissions]
+
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'description']
 
     @action(detail=True, methods=['post'], permission_classes=[HasAPIPermissions])
     def like(self, request, pk=None):
