@@ -3,6 +3,7 @@ import {
   HashRouter as Router,
   Routes,
   Route,
+  Navigate,
   useNavigate,
   useParams,
 } from "react-router-dom";
@@ -12,7 +13,8 @@ import MainPage from "./pages/MainPage.jsx";
 import QuizList from "./components/QuizList.jsx";
 import QuizForm from "./components/QuizForm.jsx";
 import QuizPlay from "./components/QuizPlay.jsx";
-import ObtainToken from "./components/ObtainToken.jsx";
+import Login from "./components/Login.jsx";
+import Register from "./components/Register.jsx";
 
 import {
   getQuizzes,
@@ -24,7 +26,7 @@ import {
 } from "./api/quizService.jsx";
 
 export default function App() {
-  const [token, setToken] = useState(localStorage.getItem("accessToken") || null);
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const [loadingTokenCheck, setLoadingTokenCheck] = useState(true);
 
   const [quizzes, setQuizzes] = useState([]);
@@ -83,9 +85,7 @@ export default function App() {
     try {
       const resp = await likeQuiz(id);
       setQuizzes((prev) =>
-        prev.map((q) =>
-          q.id === id ? { ...q, likes: resp.likes, liked: true } : q
-        )
+        prev.map((q) => (q.id === id ? { ...q, likes: resp.likes, liked: true } : q))
       );
     } catch (err) {
       console.error("Error liking quiz:", err);
@@ -96,59 +96,83 @@ export default function App() {
     try {
       const resp = await unlikeQuiz(id);
       setQuizzes((prev) =>
-        prev.map((q) =>
-          q.id === id ? { ...q, likes: resp.likes, liked: false } : q
-        )
+        prev.map((q) => (q.id === id ? { ...q, likes: resp.likes, liked: false } : q))
       );
     } catch (err) {
       console.error("Error unliking quiz:", err);
     }
   };
 
-  if (!loadingTokenCheck && !token) {
-    return <ObtainToken onTokenObtained={(tok) => setToken(tok)} />;
+  const onLoginSuccess = (accessToken, refreshToken) => {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+    setToken(accessToken);
+  };
+
+  const onLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    setToken(null);
+  };
+
+  if (loadingTokenCheck) {
+    return <div>Loading...</div>;
   }
 
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Layout
-              theme={theme}
-              setTheme={setTheme}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
+        {!token ? (
+          <>
+            <Route
+              path="/login"
+              element={<Login onLoginSuccess={onLoginSuccess} />}
             />
-          }
-        >
-          <Route index element={<MainPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </>
+        ) : (
+          <>
+            <Route
+              path="/"
+              element={
+                <Layout
+                  theme={theme}
+                  setTheme={setTheme}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  onLogout={onLogout}
+                />
+              }
+            >
+              <Route index element={<MainPage />} />
 
-          <Route
-            path="quizzes"
-            element={
-              <QuizzesPage
-                quizzes={quizzes}
-                deleteQuiz={handleDeleteQuiz}
-                onLike={handleLikeQuiz}
-                onUnlike={handleUnlikeQuiz}
-                searchTerm={searchTerm}
-                totalCount={totalCount}
-                limit={limit}
-                offset={offset}
-                setOffset={setOffset}
-                setLimit={setLimit}
+              <Route
+                path="quizzes"
+                element={
+                  <QuizzesPage
+                    quizzes={quizzes}
+                    deleteQuiz={handleDeleteQuiz}
+                    onLike={handleLikeQuiz}
+                    onUnlike={handleUnlikeQuiz}
+                    searchTerm={searchTerm}
+                    totalCount={totalCount}
+                    limit={limit}
+                    offset={offset}
+                    setOffset={setOffset}
+                    setLimit={setLimit}
+                  />
+                }
               />
-            }
-          />
 
-          <Route path="create" element={<CreatePage addQuiz={handleAddQuiz} />} />
+              <Route path="create" element={<CreatePage addQuiz={handleAddQuiz} />} />
 
-          <Route path="play/:quizId" element={<PlayWrapper />} />
+              <Route path="play/:quizId" element={<PlayWrapper />} />
 
-          <Route path="*" element={<MainPage />} />
-        </Route>
+              <Route path="*" element={<MainPage />} />
+            </Route>
+          </>
+        )}
       </Routes>
     </Router>
   );

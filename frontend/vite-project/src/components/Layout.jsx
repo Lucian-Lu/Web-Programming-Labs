@@ -1,13 +1,12 @@
 import React from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 
-export default function Layout({ theme, setTheme, searchTerm, setSearchTerm }) {
+export default function Layout({ theme, setTheme, searchTerm, setSearchTerm, onLogout }) {
   const location = useLocation();
   const navigate = useNavigate();
 
   const onSearchChange = (e) => {
     const value = e.target.value;
-
     if (location.pathname !== "/quizzes") {
       navigate("/quizzes");
     }
@@ -18,7 +17,6 @@ export default function Layout({ theme, setTheme, searchTerm, setSearchTerm }) {
     <>
       <header className="site-header">
         <div className="header-content">
-
           <nav className="nav-left">
             <Link to="/" className="nav-link">
               Home
@@ -45,11 +43,29 @@ export default function Layout({ theme, setTheme, searchTerm, setSearchTerm }) {
               value={searchTerm}
               onChange={onSearchChange}
             />
+
             <button
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
               className="theme-toggle"
             >
               {theme === "light" ? "Dark Mode" : "Light Mode"}
+            </button>
+
+            <button
+              onClick={() => {
+                onLogout();
+                navigate("/login");
+              }}
+              style={{
+                marginLeft: "1rem",
+                background: "transparent",
+                border: "none",
+                color: theme === "dark" ? "#fff" : "#000",
+                cursor: "pointer",
+                fontSize: "1rem",
+              }}
+            >
+              Logout
             </button>
           </div>
         </div>

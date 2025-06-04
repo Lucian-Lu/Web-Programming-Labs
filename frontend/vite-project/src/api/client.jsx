@@ -1,3 +1,5 @@
+// src/api/client.jsx
+
 const API_BASE = "http://localhost:8000/api";
 
 async function refreshAccessToken() {
@@ -10,15 +12,11 @@ async function refreshAccessToken() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refresh: refreshToken }),
     });
-
-    if (!response.ok) {
-      throw new Error("Refresh failed");
-    }
+    if (!response.ok) throw new Error("Refresh failed");
 
     const data = await response.json();
     if (data.access) {
       localStorage.setItem("accessToken", data.access);
-      // If SimpleJWT rotated the refresh token, store it too
       if (data.refresh) {
         localStorage.setItem("refreshToken", data.refresh);
       }
@@ -80,8 +78,6 @@ export async function apiFetch(path, options = {}) {
     throw error;
   }
 
-  if (response.status === 204) {
-    return null;
-  }
+  if (response.status === 204) return null;
   return response.json();
 }

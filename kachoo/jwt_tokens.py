@@ -7,19 +7,6 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class ObtainTokenWithPermissions(APIView):
-    """
-    POST /api/token/
-    Required JSON keys:
-      - username: "<some-unique-username>"
-      - role: "ADMIN" | "WRITER" | "VISITOR"
-        OR
-      - permissions: ["READ","WRITE", ...]
-    Returns:
-      {
-        "access": "<jwt_access_token>",
-        "refresh": "<jwt_refresh_token>"
-      }
-    """
 
     authentication_classes = []
     permission_classes = []
