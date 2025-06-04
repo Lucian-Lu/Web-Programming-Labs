@@ -203,20 +203,65 @@ function QuizzesPage({
         onPlay={handlePlay}
       />
 
-      <div style={{ marginTop: "1rem", textAlign: "center" }}>
-        <button onClick={handlePrev} disabled={offset === 0}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "1.5rem",
+        }}
+      >
+        <button
+          onClick={handlePrev}
+          disabled={offset === 0}
+          style={{
+            padding: "0.5rem 1rem",
+            marginRight: "1rem",
+            backgroundColor: offset === 0 ? "#ccc" : "#2c3e50",
+            color: offset === 0 ? "#666" : "#fff",
+            border: "none",
+            borderRadius: "0.25rem",
+            cursor: offset === 0 ? "not-allowed" : "pointer",
+            transition: "background-color 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            if (offset !== 0) e.currentTarget.style.backgroundColor = "#34495e";
+          }}
+          onMouseLeave={(e) => {
+            if (offset !== 0) e.currentTarget.style.backgroundColor = "#2c3e50";
+          }}
+        >
           Previous
         </button>
+
         <button
           onClick={handleNext}
           disabled={offset + limit >= totalCount}
-          style={{ marginLeft: "1rem" }}
+          style={{
+            padding: "0.5rem 1rem",
+            backgroundColor:
+              offset + limit >= totalCount ? "#ccc" : "#2c3e50",
+            color: offset + limit >= totalCount ? "#666" : "#fff",
+            border: "none",
+            borderRadius: "0.25rem",
+            cursor:
+              offset + limit >= totalCount ? "not-allowed" : "pointer",
+            transition: "background-color 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            if (offset + limit < totalCount)
+              e.currentTarget.style.backgroundColor = "#34495e";
+          }}
+          onMouseLeave={(e) => {
+            if (offset + limit < totalCount)
+              e.currentTarget.style.backgroundColor = "#2c3e50";
+          }}
         >
           Next
         </button>
-        <p>
-          Showing {quizzes.length} of {totalCount} (limit={limit}, offset=
-          {offset})
+
+        <p style={{ marginLeft: "1.5rem", color: "#555" }}>
+          Showing {quizzes.length} of {totalCount}
         </p>
       </div>
     </div>

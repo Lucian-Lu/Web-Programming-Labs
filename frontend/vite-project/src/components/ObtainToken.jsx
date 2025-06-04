@@ -48,7 +48,7 @@ export default function ObtainToken({ onTokenObtained }) {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            style={{ width: "100%", padding: "0.5rem" }}
+            style={{ width: "95%", padding: "0.5rem" }}
           />
         </div>
 
@@ -65,9 +65,30 @@ export default function ObtainToken({ onTokenObtained }) {
           </select>
         </div>
 
-        <button type="submit" style={{ padding: "0.5rem 1rem" }}>
-          Get Token
-        </button>
+        <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "0.75rem",
+              backgroundColor: "var(--primary, #2c3e50)",
+              color: "#fff",
+              border: "none",
+              borderRadius: "0.25rem",
+              fontSize: "1rem",
+              fontWeight: "500",
+              cursor: "pointer",
+              transition: "background-color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor =
+                "var(--primary-hover, #34495e)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "var(--primary, #2c3e50)";
+            }}
+          >
+            Get Token
+          </button>
       </form>
 
       {error && (

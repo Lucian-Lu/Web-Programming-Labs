@@ -45,7 +45,6 @@ class ObtainTokenWithPermissions(APIView):
 
         refresh = RefreshToken.for_user(user)
 
-        # 3) Inject custom claims
         if perms is not None:
             refresh["permissions"] = perms
         if role is not None:
